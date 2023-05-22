@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-22 16:04:21
+LastEditTime: 2023-05-22 16:10:05
 '''
 import asyncio
 from random import randint
@@ -114,7 +114,7 @@ async def run_delay():
     now = datetime.now()
     t = now + timedelta(seconds=delay)
     logger.info(f'延时 {delay} 秒后开始签到, 预计签到时间: {t.strftime("%Y-%m-%d %H:%M:%S")}, 共有 {len(CONFIG.accounts)} 个账号')
-    # await asyncio.sleep(delay)
+    await asyncio.sleep(delay)
     for account in CONFIG.accounts:
         check_in = CheckIn(account)
         await check_in.run()
