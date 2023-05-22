@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-22 13:32:17
+LastEditTime: 2023-05-22 14:23:16
 '''
 import asyncio
 from environs import Env
@@ -110,5 +110,5 @@ async def run_forever():
             await asyncio.sleep(60*60*24)
 
 if __name__ == '__main__':
-    # asyncio.run(run_forever())
-    asyncio.run(run())
+    asyncio.run(run_forever())
+    # asyncio.run(run())
