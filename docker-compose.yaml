@@ -10,4 +10,4 @@ services:
     memswap_limit: -1
     restart: unless-stopped
     tty: True
-    command: python main.py run
+    command: python main.py run-forever
