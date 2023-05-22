@@ -1,7 +1,7 @@
 <!--
  * @Author: Abel
  * @Date: 2023-05-22 10:49:38
- * @LastEditTime: 2023-05-22 16:01:21
+ * @LastEditTime: 2023-05-22 17:11:33
 -->
 ## 青森自动签到
 
@@ -23,7 +23,7 @@ pip install playwright
 playwright install chromium
 ```
 
-安装完依赖后，执行`python main.py`即可运行程序
+安装完依赖后，执行`python main.py --help`可查看程序指令
 
 ### Docker
 

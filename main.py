@@ -1,8 +1,10 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-22 16:29:26
+LastEditTime: 2023-05-22 17:05:26
 '''
+import time
+import click
 import asyncio
 from random import randint
 from datetime import datetime, timedelta
@@ -106,6 +108,17 @@ class CheckIn:
                 self.logger.debug('登录成功，准备签到')
                 await self.check_in(page)
 
+async def async_run():
+    for idx, account in enumerate(CONFIG.accounts, 1):
+        check_in = CheckIn(account)
+        await check_in.run()
+        if idx < len(CONFIG.accounts):
+            __delay = randint(60, 5 * 60)
+            logger.info(f'{account}签到完成，等待 {__delay} 秒后开始下一个账号的签到')
+            await asyncio.sleep(__delay)
+    logger.info('所有账号签到完成')
+    
+
 async def run_delay():
     '''为避免在固定时间点同时签到，设置随机延时'''
     # 延时时间为 0~1小时
@@ -114,26 +127,32 @@ async def run_delay():
     t = now + timedelta(seconds=delay)
     logger.info(f'延时 {delay} 秒后开始签到, 预计签到时间: {t.strftime("%Y-%m-%d %H:%M:%S")}, 共有 {len(CONFIG.accounts)} 个账号')
     await asyncio.sleep(delay)
-    for account in CONFIG.accounts:
-        check_in = CheckIn(account)
-        await check_in.run()
-        __delay = randint(60, 5 * 60)
-        logger.info(f'{account}签到完成，等待 {__delay} 秒后开始下一个账号的签到')
-        await asyncio.sleep(__delay)
+    await async_run()
 
-async def run_forever():
+async def async_run_forever():
     '''每天运行一次，具体时间由 run_delay 决定'''
-    logger.success('程序已启动')
+    logger.success('程序已启动, 每天 %s 运行一次签到程序' % CONFIG.run_time)
     while True:
-        try:
+        t = time.strftime('%H:%M')
+        if t == CONFIG.run_time:
             logger.debug('当日签到程序已启动')
             asyncio.create_task(run_delay())
-        except Exception as e:
-            logger.error(e)
-        finally:
-            logger.info('等待一天后再次运行')
-            await asyncio.sleep(60*60*24)
+            await asyncio.sleep(60 * 60)
+        await asyncio.sleep(60)
 
 if __name__ == '__main__':
-    asyncio.run(run_forever())
-    # asyncio.run(run())
+    @click.group
+    def cli():
+        ...
+    
+    @cli.command
+    def run():
+        '''立即运行一次签到程序'''
+        asyncio.run(async_run())
+    
+    @cli.command
+    def run_forever():
+        '''每天运行一次签到程序, 具体时间由配置文件决定'''
+        asyncio.run(async_run_forever())
+
+    cli()

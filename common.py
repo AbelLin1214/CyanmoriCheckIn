@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 15:21:52
-LastEditTime: 2023-05-22 16:02:04
+LastEditTime: 2023-05-22 16:43:17
 '''
 import yaml
 from pathlib import Path
@@ -20,6 +20,7 @@ class Config(BaseModel):
     '''配置'''
     headless: bool
     debug_level: str
+    run_time: str
     accounts: list[Account]
     remote_port: int = None
 
