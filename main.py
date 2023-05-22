@@ -1,10 +1,9 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-22 15:54:03
+LastEditTime: 2023-05-22 16:04:21
 '''
 import asyncio
-from environs import Env
 from random import randint
 from datetime import datetime, timedelta
 from pl_ctrl import NewBrowser, NewContext

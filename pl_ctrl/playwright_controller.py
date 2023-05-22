@@ -1,12 +1,10 @@
 '''
 Author: Abel
 Date: 2023-01-05 12:05:59
-LastEditTime: 2023-05-22 10:43:06
+LastEditTime: 2023-05-22 16:04:06
 '''
 from pathlib import Path
 from playwright.async_api import Browser, PlaywrightContextManager
-from playwright_stealth import stealth_async
-
 
 class NewBrowser(PlaywrightContextManager):
     '''继承基准async_playwright，在上下文中创建browser'''
@@ -60,7 +58,6 @@ class NewContext:
             viewport={'width': 1920, 'height': 1080}
             )
         await context.add_init_script(path='statics/stealth.min.js')
-        await stealth_async(context)
         return context
     
     async def start(self):

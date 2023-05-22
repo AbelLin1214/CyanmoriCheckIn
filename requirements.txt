@@ -1,3 +1,4 @@
-environs==9.5.0
 loguru==0.6.0
-playwright_stealth==1.0.5
+# playwright==1.25.2  # playwright is exists if build with docker
+pydantic==1.9.0
+PyYAML==6.0
