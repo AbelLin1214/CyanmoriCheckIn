@@ -1,6 +1,7 @@
 headless: true  # 是否开启无头模式
 remote_port:  # 远程调试端口, 可以不填，必须为整数
 debug_level: DEBUG  # 日志级别 DEBUG, INFO, WARNING, ERROR, CRITICAL
+run_time: "10:00"  # 签到时间, 24小时制, 例如 10:00
 accounts:
   - name: AAA
     email: 123@qq.com
