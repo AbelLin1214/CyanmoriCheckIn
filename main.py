@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-22 11:48:33
+LastEditTime: 2023-05-22 13:32:17
 '''
 import asyncio
 from environs import Env
@@ -9,6 +9,7 @@ from random import randint
 from datetime import datetime, timedelta
 from pl_ctrl import NewBrowser, NewContext
 from _logger import MyLogger
+from playwright.async_api import Page, Response
 
 env = Env()
 env.read_env()
@@ -19,6 +20,22 @@ email = env.str('CCCC_EMAIL')
 password = env.str('CCCC_PASSWORD')
 logger = MyLogger(debug_level).bind(ps=f'CheckIn({email})')
 
+def listen_check_in(page: Page):
+    '''监听签到结果'''
+    async def on_response(resp: Response):
+        '''监听器'''
+        check_in_url = 'https://cccc.gg/user/checkin'
+        if resp.url == check_in_url:
+            # 返回json时才解析
+            if resp.headers['content-type'] == 'application/json':
+                data = await resp.json()
+                msg = data.get('msg', '未能获取签到流量')
+                traffic = data.get('traffic', '未知')
+                logger.success(f'{msg}, 当前流量: {traffic}')
+            else:
+                logger.warning('出错啦，可能是已经签到过了')
+    page.on('response', on_response)
+
 async def run():
     '''签到主程序'''
     logger.info('开始签到')
@@ -27,6 +44,7 @@ async def run():
         async with NewContext(browser, 'state.json') as context:
             logger.debug('用户态已加载')
             page = await context.new_page()
+            listen_check_in(page)
             # 登录
             logger.debug('正在进入登录页面')
             login_url = 'https://cccc.gg/auth/login'
@@ -92,5 +110,5 @@ async def run_forever():
             await asyncio.sleep(60*60*24)
 
 if __name__ == '__main__':
-    asyncio.run(run_forever())
-    # asyncio.run(run())
+    # asyncio.run(run_forever())
+    asyncio.run(run())
