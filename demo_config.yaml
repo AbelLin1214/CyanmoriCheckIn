@@ -1,0 +1,11 @@
+headless: true  # 是否开启无头模式
+remote_port:  # 远程调试端口, 可以不填，必须为整数
+debug_level: DEBUG  # 日志级别 DEBUG, INFO, WARNING, ERROR, CRITICAL
+accounts:
+  - name: AAA
+    email: 123@qq.com
+    password: 456abc
+
+  - name: BBB
+    email: 456@qq.com
+    password: 789abc

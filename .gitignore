@@ -1,6 +1,8 @@
 *test*
 
+state
 logs
 __pycache__
 state.json
 .DS_Store
+config.yaml
