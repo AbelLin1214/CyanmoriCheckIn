@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-22 16:10:05
+LastEditTime: 2023-05-22 16:29:26
 '''
 import asyncio
 from random import randint
@@ -83,7 +83,6 @@ class CheckIn:
         self.logger.debug('等待签到结果')
         await page.wait_for_load_state('networkidle')
         await page.wait_for_timeout(2000)
-        self.logger.debug('获取签到结果')
         btn = await page.query_selector('text=已签到')
         if btn:
             attr = await btn.get_attribute('disabled')
