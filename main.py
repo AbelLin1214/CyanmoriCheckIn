@@ -1,11 +1,12 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-22 10:46:25
+LastEditTime: 2023-05-22 11:48:33
 '''
 import asyncio
 from environs import Env
 from random import randint
+from datetime import datetime, timedelta
 from pl_ctrl import NewBrowser, NewContext
 from _logger import MyLogger
 
@@ -69,9 +70,11 @@ async def run():
 
 async def run_delay():
     '''为避免在固定时间点同时签到，设置随机延时'''
-    # 延时时间为 0~3小时
-    delay = randint(0, 3*60*60)
-    logger.info(f'延时 {delay} 秒后开始签到')
+    # 延时时间为 0~1小时
+    delay = randint(0, 60 * 60)
+    now = datetime.now()
+    t = now + timedelta(seconds=delay)
+    logger.info(f'延时 {delay} 秒后开始签到, 预计签到时间: {t.strftime("%Y-%m-%d %H:%M:%S")}')
     await asyncio.sleep(delay)
     await run()
 
