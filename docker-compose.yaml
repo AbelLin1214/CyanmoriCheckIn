@@ -1,0 +1,19 @@
+version: '1.0'
+services:
+  server:
+    build: .
+    image: cccc-auto-check-in:${TAG:-latest}
+    container_name: cccc-auto-check-in
+    volumes:
+      - ./logs:/app/logs
+    mem_limit: 2G
+    memswap_limit: -1
+    restart: unless-stopped
+    tty: True
+    command: python main.py
+    environment:
+      - HEADLESS=True  # 是否使用无头模式
+      - REMOTE_PORT=9222  # 远程调试端口, 可用chrome://inspect/#devices调试
+      - DEBUG_LEVEL=DEBUG  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+      - CCCC_EMAIL=YOUR_EMAIL  # 用于登录的邮箱
+      - CCCC_PASSWORD=YOUR_PASSWORD  # 用于登录的密码

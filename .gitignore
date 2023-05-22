@@ -1,0 +1,6 @@
+*test*
+
+logs
+__pycache__
+state.json
+.DS_Store
