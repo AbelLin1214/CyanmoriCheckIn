@@ -1,7 +1,7 @@
 <!--
  * @Author: Abel
  * @Date: 2023-05-22 10:49:38
- * @LastEditTime: 2023-05-22 10:58:26
+ * @LastEditTime: 2023-05-22 11:23:21
 -->
 ## 青森自动签到
 
@@ -32,4 +32,10 @@ playwright install chromium
 ```shell
 ./build.sh
 docker compose logs -f
+```
+
+当然，如果你的compose版本较老，你可以选择更新版本，或者使用以下命令
+
+```shell
+docker compose up -d --build && docker compose logs -f
 ```
