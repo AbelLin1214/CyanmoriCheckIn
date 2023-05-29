@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-22 17:05:26
+LastEditTime: 2023-05-29 11:12:47
 '''
 import time
 import click
@@ -93,7 +93,8 @@ class CheckIn:
                     self.logger.success('签到成功')
                     return
         self.logger.error('签到失败')
-        
+    
+    @logger.catch
     async def run(self):
         '''签到主程序'''
         self.logger.info('开始签到')
