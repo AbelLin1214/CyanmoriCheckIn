@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-05-29 11:12:47
+LastEditTime: 2023-05-31 20:26:03
 '''
 import time
 import click
@@ -98,16 +98,22 @@ class CheckIn:
     async def run(self):
         '''签到主程序'''
         self.logger.info('开始签到')
-        async with NewBrowser(headless=CONFIG.headless, remote_port=CONFIG.remote_port) as browser:
-            self.logger.debug('浏览器已启动, Headless: %s' % CONFIG.headless)
-            async with NewContext(browser, self.state_path) as context:
-                self.logger.debug('用户态已加载')
-                page = await context.new_page()
-                self.listen_check_in(page)
-                await self.login(page)  # 登录
-                # 签到
-                self.logger.debug('登录成功，准备签到')
-                await self.check_in(page)
+        for i in range(1, CONFIG.retry_times + 1):
+            try:
+                self.logger.debug(f'第 {i} 次尝试')
+                async with NewBrowser(headless=CONFIG.headless, remote_port=CONFIG.remote_port) as browser:
+                    self.logger.debug('浏览器已启动, Headless: %s' % CONFIG.headless)
+                    async with NewContext(browser, self.state_path) as context:
+                        self.logger.debug('用户态已加载')
+                        page = await context.new_page()
+                        self.listen_check_in(page)
+                        await self.login(page)  # 登录
+                        # 签到
+                        self.logger.debug('登录成功，准备签到')
+                        await self.check_in(page)
+                        break
+            except Exception as e:
+                self.logger.error(e)
 
 async def async_run():
     for idx, account in enumerate(CONFIG.accounts, 1):

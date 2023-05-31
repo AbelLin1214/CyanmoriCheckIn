@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 15:21:52
-LastEditTime: 2023-05-22 16:43:17
+LastEditTime: 2023-05-31 20:25:29
 '''
 import yaml
 from pathlib import Path
@@ -23,6 +23,7 @@ class Config(BaseModel):
     run_time: str
     accounts: list[Account]
     remote_port: int = None
+    retry_times: int
 
     @classmethod
     def load(cls, path: str):
