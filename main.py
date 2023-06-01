@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-06-01 10:44:23
+LastEditTime: 2023-06-01 10:57:19
 '''
 import time
 import click
@@ -57,7 +57,7 @@ class CheckIn:
         # 登录
         self.logger.debug('正在进入登录页面')
         login_url = 'https://cccc.gg/auth/login'
-        await page.goto(login_url)
+        await page.goto(login_url, timeout=120000)
         # 等待页面跳转至主页（如果登录已失效的话）
         try:
             url = 'https://cccc.gg/user'
@@ -106,7 +106,6 @@ class CheckIn:
                     async with NewContext(browser, self.state_path) as context:
                         self.logger.debug('用户态已加载')
                         page = await context.new_page()
-                        page.set_default_timeout(60000)  # 有时加载会很慢，这里延长超时时间
                         self.listen_check_in(page)
                         await self.login(page)  # 登录
                         # 签到
