@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-06-01 10:57:19
+LastEditTime: 2023-06-06 11:07:50
 '''
 import time
 import click
@@ -72,7 +72,8 @@ class CheckIn:
             await page.fill('//input[@id="password"]', self.account.password)
             self.logger.debug('点击登录')
             await page.click('text=登录')
-            await page.wait_for_url(url)
+            # 点击登录后，偶发需要等待较长时间才能跳转至主页
+            await page.wait_for_url(url, timeout=120000)
 
         # 等待页面加载完成
         self.logger.debug('等待页面加载完成')
