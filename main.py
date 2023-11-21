@@ -1,7 +1,7 @@
 '''
 Author: Abel
 Date: 2023-05-22 09:03:40
-LastEditTime: 2023-06-06 11:07:50
+LastEditTime: 2023-11-21 18:04:48
 '''
 import time
 import click
@@ -16,7 +16,8 @@ from playwright.async_api import Page, Response
 
 CONFIG = Config.load('config.yaml')
 logger = MyLogger(CONFIG.debug_level)
-
+# HOST = 'https://cccc.gg'
+HOST = 'https://1100.gg'
 
 class CheckIn:
     '''自动签到'''
@@ -40,7 +41,7 @@ class CheckIn:
         '''监听签到结果'''
         async def on_response(resp: Response):
             '''监听器'''
-            check_in_url = 'https://cccc.gg/user/checkin'
+            check_in_url = f'{HOST}/user/checkin'
             if resp.url == check_in_url:
                 # 返回json时才解析
                 if resp.headers['content-type'] == 'application/json':
@@ -56,11 +57,11 @@ class CheckIn:
         '''登录'''
         # 登录
         self.logger.debug('正在进入登录页面')
-        login_url = 'https://cccc.gg/auth/login'
+        login_url = f'{HOST}/auth/login'
         await page.goto(login_url, timeout=120000)
         # 等待页面跳转至主页（如果登录已失效的话）
         try:
-            url = 'https://cccc.gg/user'
+            url = f'{HOST}/user'
             await page.wait_for_url(url)
             self.logger.info('使用缓存登录成功')
         except Exception:
