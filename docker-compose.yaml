@@ -6,6 +6,7 @@ services:
     container_name: cccc-auto-check-in
     volumes:
       - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml
     mem_limit: 2G
     memswap_limit: -1
     restart: unless-stopped
